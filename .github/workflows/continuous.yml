@@ -4,29 +4,31 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '^3.5'
-      - uses: mymindstorm/setup-emsdk@v8
+          python-version: '3.x'
+      - uses: actions/setup-node@v4
         with:
-          version: 'latest'
+          node-version: 18
+      - uses: mymindstorm/setup-emsdk@v16
+        with:
+          version: "3.1.35"
       - run: emcc -v
-      - run: python -V
       - run: cmake --version
-      - run: ${{ matrix.make || 'make' }} --version
-      - run: cmake -B builds -DCLOSURE=1 ${{ matrix.cmake-args }}
+      - run: cmake -B builds -DCLOSURE=1 "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" ${{ matrix.cmake-args }}
       - run: cmake --build builds -- VERBOSE=1
       - run: npm ci
       - name: Test Ammo Javascript
         run: npx ava
         env:
-          AMMO_BUILD: builds/ammo.js
+          AMMO_PATH: builds/ammo.js
       - name: Test Ammo WebAssembly
         run: npx ava
         env:
-          AMMO_BUILD: builds/ammo.wasm.js
+          AMMO_PATH: builds/ammo.wasm.js
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -35,4 +37,3 @@ jobs:
         include:
           - os: windows-latest
             cmake-args: -G 'MinGW Makefiles'
-            make: mingw32-make
