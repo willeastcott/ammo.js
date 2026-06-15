@@ -145,6 +145,12 @@ interface btCollisionObject {
   long getCollisionFlags();
   void setCollisionFlags(long flags);
   void setWorldTransform([Const,Ref] btTransform worldTrans);
+  [Ref] btTransform getInterpolationWorldTransform();
+  void setInterpolationWorldTransform([Const, Ref] btTransform trans);
+  void setInterpolationLinearVelocity([Const, Ref] btVector3 linvel);
+  void setInterpolationAngularVelocity([Const, Ref] btVector3 angvel);
+  [Const, Ref] btVector3 getInterpolationLinearVelocity();
+  [Const, Ref] btVector3 getInterpolationAngularVelocity();
   void setCollisionShape(btCollisionShape collisionShape);
   void setCcdMotionThreshold (float ccdMotionThreshold);
   void setCcdSweptSphereRadius (float radius);
