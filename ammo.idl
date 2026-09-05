@@ -482,6 +482,12 @@ interface btBvhTriangleMeshShape {
 };
 btBvhTriangleMeshShape implements btTriangleMeshShape;
 
+interface btScaledBvhTriangleMeshShape {
+  void btScaledBvhTriangleMeshShape(btBvhTriangleMeshShape childShape, [Const, Ref] btVector3 localScaling);
+  btBvhTriangleMeshShape getChildShape();
+};
+btScaledBvhTriangleMeshShape implements btConcaveShape;
+
 interface btHeightfieldTerrainShape {
     void btHeightfieldTerrainShape(long heightStickWidth, long heightStickLength, VoidPtr heightfieldData, float heightScale, float minHeight, float maxHeight, long upAxis, PHY_ScalarType hdt, boolean flipQuadEdges);
     void setMargin(float margin);
