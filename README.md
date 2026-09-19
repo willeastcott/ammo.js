@@ -137,8 +137,8 @@ configuration, for example:
 
   ```bash
   $ cmake -B builds -DCLOSURE=1                # compile with closure
-  $ cmake -B builds -DTOTAL_MEMORY=268435456   # allocate a 256MB heap
-  $ cmake -B builds -DALLOW_MEMORY_GROWTH=1    # enable a resizable heap
+  $ cmake -B builds -DTOTAL_MEMORY=268435456   # start with a 256MB heap (default 16MB)
+  $ cmake -B builds -DALLOW_MEMORY_GROWTH=0    # fixed heap instead of the default resizable one
   ```
 
 On windows, you can build using cmake's

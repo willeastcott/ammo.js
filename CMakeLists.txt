@@ -27,11 +27,13 @@ set(USE_GLUT OFF)
 # Build Release by default
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Build Type")
 
-# Default is 64*1024*1024 = 64MB
-set(TOTAL_MEMORY 67108864 CACHE STRING "Total Memory")
+# Initial heap size. Default is 16*1024*1024 = 16MB; with ALLOW_MEMORY_GROWTH the heap grows
+# from here on demand, so this only needs to cover a small scene.
+set(TOTAL_MEMORY 16777216 CACHE STRING "Initial Memory")
 
-# Enable for resizable heap, with some amount of slowness
-set(ALLOW_MEMORY_GROWTH 0 CACHE STRING "Allow Memory Growth")
+# Resizable heap (default). Set to 0 for a fixed heap of TOTAL_MEMORY bytes, which avoids the
+# copy on each growth at the cost of aborting once the simulation needs more.
+set(ALLOW_MEMORY_GROWTH 1 CACHE STRING "Allow Memory Growth")
 
 set(EMCC_ARGS
   --extern-pre-js ${AMMO_FRONT_MATTER_FILE}
