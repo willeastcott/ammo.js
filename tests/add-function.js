@@ -93,13 +93,14 @@ testContactCallback('btDiscreteDynamicsWorld.prototype.setContactDestroyedCallba
   // In bullet, contact manifold user persistent data can be any void*
   // ammo does not have a way to create pointers to javascript data,
   // but you can abuse the void* to store a simple int value.
-  // Here we create some random integers for testing the callback:
+  // Here we create some random non-zero integers for testing the callback: bullet skips the
+  // destroy callback for a null pointer, so a zero would leave the test one invocation short.
   const dispatcher = world.getDispatcher()
   for (let i = 0, manifold; i < dispatcher.getNumManifolds(); i++) {
     manifold = dispatcher.getManifoldByIndexInternal(i)
     for (let j = 0, point; j < manifold.getNumContacts(); j++) {
       point = manifold.getContactPoint(j)
-      point.m_userPersistentData = Math.floor(Math.random() * 100)
+      point.m_userPersistentData = 1 + Math.floor(Math.random() * 100)
       expectedUserPersistentData.push(point.m_userPersistentData)
     }
   }
