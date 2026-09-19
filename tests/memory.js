@@ -14,5 +14,6 @@ test('heap starts at 16MB and grows on demand', t => {
   // ...and grows instead of aborting once a simulation needs more
   const ptr = Ammo._malloc(32 * MB);
   t.not(ptr, 0);
-  t.assert(Ammo.HEAP8.byteLength >= initial + 32 * MB);
+  t.assert(Ammo.HEAP8.byteLength > initial);
+  t.assert(Ammo.HEAP8.byteLength >= ptr + 32 * MB);
 })
